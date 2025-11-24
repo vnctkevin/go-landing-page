@@ -45,32 +45,11 @@
                                 class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Update</span>
                             <span class="text-sm text-gray-400">{{ .CreatedAt.Format "Jan 02, 2006" }}</span>
                         </div>
-                        <h3 class="text-4xl font-bold text-slate-900 mb-4">{{ .Title }}</h3>
-
-                        <div class="prose prose-slate max-w-none text-gray-600">
-                            {{ range .Content }}
-                            {{ if eq .Type "h1" }}
-                            <h1 class="text-3xl font-bold text-slate-900 mt-6 mb-4">{{ .Text }}</h1>
-                            {{ else if eq .Type "h2" }}
-                            <h2 class="text-2xl font-bold text-slate-900 mt-5 mb-3">{{ .Text }}</h2>
-                            {{ else if eq .Type "h3" }}
-                            <h3 class="text-xl font-bold text-slate-900 mt-4 mb-2">{{ .Text }}</h3>
-                            {{ else if eq .Type "p" }}
-                            <p class="mb-4 leading-relaxed">{{ .Text }}</p>
-                            {{ else if eq .Type "img" }}
-                            <figure class="my-6">
-                                <img src="{{ .Src }}" alt="{{ .Alt }}"
-                                    class="rounded-lg shadow-md w-full object-cover max-h-96">
-                                {{ if .Caption }}
-                                <figcaption class="text-center text-sm text-gray-500 mt-2">{{ .Caption }}</figcaption>
-                                {{ end }}
-                            </figure>
-                            {{ else if eq .Type "code" }}
-                            <pre
-                                class="bg-slate-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4"><code>{{ .Code }}</code></pre>
-                            {{ end }}
-                            {{ end }}
-                        </div>
+                        <a href="/blog/{{ .ID }}">
+                            <h3
+                                class="text-2xl font-bold text-slate-900 mb-4 hover:text-blue-600 transition hover:underline">
+                                {{ .Title }}</h3>
+                        </a>
 
                         <div class="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
                             <div class="flex items-center">

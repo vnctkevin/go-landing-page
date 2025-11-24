@@ -21,7 +21,8 @@
         <a href="/" class="text-2xl font-bold text-blue-600 tracking-wider">SHIP<span class="text-slate-800">FLOW</span>
             <span class="text-xs text-gray-500 font-normal align-top">BLOG</span></a>
         <div class="flex items-center gap-4">
-            <a href="/" class="text-sm font-medium text-gray-500 hover:text-blue-600 transition">← Back to Home</a>
+            <a href="/" class="text-sm font-medium text-gray-500 hover:text-blue-600 transition">← Back to
+                Home</a>
             <a href="/blog/create"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold transition shadow-lg shadow-blue-500/30">
                 Create New Post
@@ -34,21 +35,20 @@
 
             <!-- Right Column: Blog Feed -->
             <div class="lg:col-span-3 space-y-8">
-                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-gray-200 pb-4">Latest Updates</h2>
 
-                {{ range .posts }}
                 <article
                     class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition duration-300">
                     <div class="p-8">
                         <div class="flex items-center justify-between mb-4">
                             <span
                                 class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Update</span>
-                            <span class="text-sm text-gray-400">{{ .CreatedAt.Format "Jan 02, 2006" }}</span>
+                            <span class="text-sm text-gray-400">{{ .post.CreatedAt.Format "Jan 02, 2006"
+                                }}</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-4">{{ .Title }}</h3>
+                        <h1 class="text-4xl font-bold text-slate-900 mb-6">{{ .post.Title }}</h1>
 
                         <div class="prose prose-slate max-w-none text-gray-600">
-                            {{ range .Content }}
+                            {{ range .post.Content }}
                             {{ if eq .Type "h1" }}
                             <h1 class="text-3xl font-bold text-slate-900 mt-6 mb-4">{{ .Text }}</h1>
                             {{ else if eq .Type "h2" }}
@@ -62,7 +62,8 @@
                                 <img src="{{ .Src }}" alt="{{ .Alt }}"
                                     class="rounded-lg shadow-md w-full object-cover max-h-96">
                                 {{ if .Caption }}
-                                <figcaption class="text-center text-sm text-gray-500 mt-2">{{ .Caption }}</figcaption>
+                                <figcaption class="text-center text-sm text-gray-500 mt-2">{{ .Caption }}
+                                </figcaption>
                                 {{ end }}
                             </figure>
                             {{ else if eq .Type "code" }}
@@ -72,31 +73,23 @@
                             {{ end }}
                         </div>
 
-                        <div class="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
+                        <div class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
                             <div class="flex items-center">
                                 <div
-                                    class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
-                                    {{ printf "%.1s" .Author }}
+                                    class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
+                                    {{ printf "%.1s" .post.Author }}
                                 </div>
-                                <span class="ml-3 text-sm font-medium text-gray-700">Posted by {{ .Author }}</span>
+                                <span class="ml-3 text-base font-medium text-gray-700">Posted by {{ .post.Author
+                                    }}</span>
                             </div>
                             <div class="flex space-x-3">
-                                <a href="/blog/{{ .ID }}/edit"
-                                    class="text-sm text-blue-600 hover:text-blue-800 font-medium">Edit</a>
+                                <a href="/blog/{{ .post.ID }}/edit"
+                                    class="text-sm text-blue-600 hover:text-blue-800 font-medium">Edit Post</a>
                             </div>
                         </div>
                     </div>
                 </article>
-                {{ else }}
-                <div class="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                    </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900">No posts yet</h3>
-                    <p class="mt-1 text-sm text-gray-500">Get started by creating a new post.</p>
-                </div>
-                {{ end }}
+
             </div>
         </div>
     </div>

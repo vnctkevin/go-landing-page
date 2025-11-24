@@ -27,6 +27,19 @@ func IndexPosts(c *gin.Context) {
 	})
 }
 
+func ShowPost(c *gin.Context) {
+	id := c.Param("id")
+	var post models.BlogPost
+	if err := config.DB.First(&post, id).Error; err != nil {
+		c.JSON(404, gin.H{"error": "Post not found"})
+		return
+	}
+
+	c.HTML(http.StatusOK, "blog-detail.html", gin.H{
+		"post": post,
+	})
+}
+
 // GET /blog/create - Show Create Post Form
 func ShowCreate(c *gin.Context) {
 	c.HTML(http.StatusOK, "create-blog.html", gin.H{

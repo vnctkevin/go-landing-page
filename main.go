@@ -24,6 +24,7 @@ func main() {
 	// 5. Define Routes
 	r.GET("/", controllers.Home)
 	r.GET("/blog", controllers.IndexPosts)
+	r.GET("/blog/:id", controllers.ShowPost)
 
 	// Blog CRUD Endpoints
 	r.GET("/blog/create", controllers.ShowCreate)
