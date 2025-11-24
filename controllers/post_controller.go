@@ -4,6 +4,7 @@ import (
 	"blog/config"
 	"blog/models"
 	"encoding/json"
+	"html/template"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -91,7 +92,7 @@ func ShowEdit(c *gin.Context) {
 	c.HTML(http.StatusOK, "edit-blog.html", gin.H{
 		"title":       "Edit Post",
 		"post":        post,
-		"contentJson": string(contentBytes),
+		"contentJson": template.JS(contentBytes),
 	})
 }
 
@@ -105,6 +106,7 @@ func UpdatePost(c *gin.Context) {
 	}
 
 	post.Title = c.PostForm("title")
+	post.Slug = c.PostForm("slug")
 	contentJSON := c.PostForm("content_json")
 
 	if contentJSON != "" {
