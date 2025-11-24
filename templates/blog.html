@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>Latest Posts</h1>
+
+    <h3>Add New Post</h3>
+    <form action="/blog" method="POST">
+        <input type="text" name="title" placeholder="Title" required><br>
+        <textarea name="content" placeholder="Content" required></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+
+    {{ range .posts }}
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <h2>{{ .Title }}</h2>
+        <p>{{ .Content }}</p>
+        <small>Posted by: {{ .Author }}</small>
+    </div>
+    {{ end }}
+
+    <br>
+    <a href="/">Back Home</a>
+</body>
+
+</html>
