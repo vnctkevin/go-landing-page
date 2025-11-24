@@ -39,7 +39,6 @@ func (pc PostContent) Value() (driver.Value, error) {
 	return json.Marshal(pc)
 }
 
-
 func (pc *PostContent) Scan(value interface{}) error {
 	b, ok := value.([]byte)
 	if !ok {
@@ -54,4 +53,5 @@ type BlogPost struct {
 	Title   string      `json:"title"`
 	Content PostContent `json:"content" gorm:"type:jsonb"`
 	Author  string      `json:"author"`
+	Slug    string      `json:"slug"`
 }

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - ShipFlow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-800">
+
+    <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+        <a href="/" class="text-2xl font-bold text-blue-600 tracking-wider">SHIP<span class="text-slate-800">FLOW</span>
+            <span class="text-xs text-gray-500 font-normal align-top">BLOG</span></a>
+        <a href="/blog" class="text-sm font-medium text-gray-500 hover:text-blue-600 transition">← Back to Blog</a>
+    </nav>
+
+    <div class="container mx-auto px-6 py-10 max-w-4xl">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <h1 class="text-2xl font-bold mb-8">Create New Post</h1>
+
+            <form action="/blog/create" method="POST" id="postForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                    <input type="text" name="title" placeholder="Enter post title..." required
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition text-lg font-semibold">
+                </div>
+
+                <!-- Hidden input to store JSON -->
+                <input type="hidden" name="content_json" id="contentJson">
+
+                <div class="border-t border-gray-200 pt-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-4">Content Blocks</label>
+
+                    <div id="editor-container" class="space-y-4 mb-6">
+                        <!-- Dynamic blocks will be added here -->
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="addBlock('p')"
+                            class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium text-gray-700 transition">+
+                            Paragraph</button>
+                        <button type="button" onclick="addBlock('h2')"
+                            class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium text-gray-700 transition">+
+                            Heading 2</button>
+                        <button type="button" onclick="addBlock('h3')"
+                            class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium text-gray-700 transition">+
+                            Heading 3</button>
+                        <button type="button" onclick="addBlock('img')"
+                            class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium text-gray-700 transition">+
+                            Image</button>
+                        <button type="button" onclick="addBlock('code')"
+                            class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium text-gray-700 transition">+
+                            Code</button>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-gray-200">
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition shadow-md hover:shadow-lg">
+                        Publish Post
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const editorContainer = document.getElementById('editor-container');
+        let blocks = [];
+
+        function renderBlocks() {
+            editorContainer.innerHTML = '';
+            blocks.forEach((block, index) => {
+                const el = document.createElement('div');
+                el.className = 'p-4 border border-gray-200 rounded-lg bg-gray-50 relative group';
+
+                let contentHtml = '';
+                if (block.type === 'p' || block.type === 'h2' || block.type === 'h3') {
+                    contentHtml = `<textarea oninput="updateBlock(${index}, 'text', this.value)" class="w-full bg-transparent border-none focus:ring-0 p-0 text-gray-800" rows="${block.type === 'p' ? 3 : 1}" placeholder="Enter ${block.type === 'p' ? 'paragraph text' : 'heading'}...">${block.text || ''}</textarea>`;
+                } else if (block.type === 'code') {
+                    contentHtml = `<textarea oninput="updateBlock(${index}, 'code', this.value)" class="w-full bg-slate-900 text-green-400 font-mono p-3 rounded text-sm" rows="4" placeholder="Enter code...">${block.code || ''}</textarea>`;
+                } else if (block.type === 'img') {
+                    contentHtml = `
+                        <div class="space-y-2">
+                            <input type="text" oninput="updateBlock(${index}, 'src', this.value)" value="${block.src || ''}" placeholder="Image URL" class="w-full px-3 py-1.5 rounded border border-gray-300 text-sm">
+                            <input type="text" oninput="updateBlock(${index}, 'alt', this.value)" value="${block.alt || ''}" placeholder="Alt Text" class="w-full px-3 py-1.5 rounded border border-gray-300 text-sm">
+                            <input type="text" oninput="updateBlock(${index}, 'caption', this.value)" value="${block.caption || ''}" placeholder="Caption" class="w-full px-3 py-1.5 rounded border border-gray-300 text-sm">
+                        </div>
+                    `;
+                }
+
+                el.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold uppercase text-gray-400">${block.type}</span>
+                        <button type="button" onclick="removeBlock(${index})" class="text-red-400 hover:text-red-600 text-xs opacity-0 group-hover:opacity-100 transition">Remove</button>
+                    </div>
+                    ${contentHtml}
+                `;
+                editorContainer.appendChild(el);
+            });
+        }
+
+        function addBlock(type) {
+            blocks.push({ type: type });
+            renderBlocks();
+        }
+
+        function updateBlock(index, field, value) {
+            blocks[index][field] = value;
+        }
+
+        function removeBlock(index) {
+            blocks.splice(index, 1);
+            renderBlocks();
+        }
+
+        document.getElementById('postForm').addEventListener('submit', function (e) {
+            document.getElementById('contentJson').value = JSON.stringify(blocks);
+        });
+
+        // Add initial paragraph
+        addBlock('p');
+    </script>
+</body>
+
+</html>

@@ -24,7 +24,13 @@ func main() {
 	// 5. Define Routes
 	r.GET("/", controllers.Home)
 	r.GET("/blog", controllers.IndexPosts)
-	r.POST("/blog", controllers.CreatePost)
+
+	// Blog CRUD Endpoints
+	r.GET("/blog/create", controllers.ShowCreate)
+	r.POST("/blog/create", controllers.CreatePost)
+	r.GET("/blog/:id/edit", controllers.ShowEdit)
+	r.POST("/blog/:id/edit", controllers.UpdatePost)
+	r.POST("/blog/:id/delete", controllers.DeletePost)
 
 	// 6. Run Server (defaults to localhost:8080)
 	r.Run()
