@@ -59,6 +59,19 @@ func ShowPost(c *gin.Context) {
 	})
 }
 
+func ShowPostFromSlug(c *gin.Context) {
+	slug := c.Param("slug")
+	post, err := postService.GetPostBySlug(slug)
+	if err != nil {
+		c.JSON(404, gin.H{"error": "Post not found"})
+		return
+	}
+
+	c.HTML(http.StatusOK, "blog-detail.html", gin.H{
+		"post": post,
+	})
+}
+
 // GET /blog/create - Show Create Post Form
 func ShowCreate(c *gin.Context) {
 	c.HTML(http.StatusOK, "create-blog.html", gin.H{
@@ -75,6 +88,7 @@ func CreatePost(c *gin.Context) {
 	metaDescription := c.PostForm("meta_description")
 	keywords := c.PostForm("keywords")
 	canonicalURL := c.PostForm("canonical_url")
+	slug := c.PostForm("slug")
 
 	var postContent models.PostContent
 
@@ -96,6 +110,7 @@ func CreatePost(c *gin.Context) {
 		MetaTitle:       metaTitle,
 		MetaDescription: metaDescription,
 		Keywords:        keywords,
+		Slug:            slug,
 		CanonicalURL:    canonicalURL,
 	}
 

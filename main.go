@@ -24,6 +24,7 @@ func main() {
 	// 5. Define Routes
 	r.GET("/", controllers.Home)
 	r.GET("/blog", controllers.IndexPosts)
+	r.GET("/post", controllers.IndexPosts)
 	r.GET("/blog/:id", controllers.ShowPost)
 
 	// Blog CRUD Endpoints
@@ -31,6 +32,7 @@ func main() {
 	r.POST("/blog/create", controllers.CreatePost)
 	r.GET("/blog/:id/edit", controllers.ShowEdit)
 	r.POST("/blog/:id/edit", controllers.UpdatePost)
+	r.GET("/post/:slug", controllers.ShowPostFromSlug)
 	r.POST("/blog/:id/delete", controllers.DeletePost)
 
 	// Upload Endpoint

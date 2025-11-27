@@ -64,3 +64,11 @@ func (s *PostService) GetAllPosts(page int, limit int) ([]models.BlogPost, int64
 
 	return posts, total, nil
 }
+
+func (s *PostService) GetPostBySlug(slug string) (*models.BlogPost, error) {
+	var post models.BlogPost
+	if err := config.DB.Where("slug = ?", slug).First(&post).Error; err != nil {
+		return nil, err
+	}
+	return &post, nil
+}
