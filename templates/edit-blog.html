@@ -63,40 +63,82 @@
                         <button type="button" onclick="addBlock('img')"
                             class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium text-gray-700 transition">+
                             Image</button>
-                        <button type="button" onclick="addBlock('code')" <div>
-                            <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-1">Meta
-                                Description</label>
+                        <button type="button" onclick="addBlock('code')"
+                            class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium text-gray-700 transition">+
+                            Code</button>
+                    </div>
+                    
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Slug</label>
+                    <input type="text" name="slug" value="{{ .post.Slug }}" placeholder="Enter post slug..." required
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition text-md font-semibold">
+                </div>
+
+                <!-- SEO Fields -->
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">SEO Settings</h3>
+
+                    <div class="grid grid-cols-1 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Meta Image</label>
+                            <input type="hidden" id="main_image" name="main_image" value="{{ .post.MainImage }}">
+                            
+                            <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
+                                <input type="file" id="main_image_upload" onchange="handleMainImageUpload(this.files[0])" accept="image/*"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                
+                                <div id="upload-prompt" {{ if .post.MainImage }}class="hidden"{{ end }}>
+                                    <div class="text-gray-500">
+                                        <span class="text-blue-600 font-medium">Click to upload</span> or drag and drop
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+
+                                <div id="image-preview-container" {{ if not .post.MainImage }}class="hidden"{{ end }} class="relative z-20">
+                                    <img id="image-preview" src="{{ .post.MainImage }}" alt="Meta Image Preview" class="max-h-48 mx-auto rounded shadow-sm">
+                                    <button type="button" onclick="removeMainImage()" 
+                                        class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-1">Excerpt</label>
                             <textarea id="meta_description" name="meta_description" rows="3"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                                placeholder="Brief summary for search engines">{{ .post.MetaDescription }}</textarea>
-                    </div>
+                                placeholder="Brief summary of the post, max 155 characters for search engines">{{ .post.MetaDescription }}</textarea>
+                        </div>
 
-                    <div>
-                        <label for="keywords" class="block text-sm font-medium text-gray-700 mb-1">Keywords</label>
-                        <input type="text" id="keywords" name="keywords" value="{{ .post.Keywords }}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                            placeholder="comma, separated, keywords">
-                    </div>
+                        <div>
+                            <label for="keywords" class="block text-sm font-medium text-gray-700 mb-1">Keywords</label>
+                            <input type="text" id="keywords" name="keywords" value="{{ .post.Keywords }}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                placeholder="comma, separated, keywords">
+                        </div>
 
-                    <div>
-                        <label for="canonical_url" class="block text-sm font-medium text-gray-700 mb-1">Canonical
-                            URL</label>
-                        <input type="text" id="canonical_url" name="canonical_url" value="{{ .post.CanonicalURL }}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                            placeholder="https://example.com/blog/original-post">
+                        <div>
+                            <label for="canonical_url" class="block text-sm font-medium text-gray-700 mb-1">Canonical URL</label>
+                            <input type="text" id="canonical_url" name="canonical_url" value="{{ .post.CanonicalURL }}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                placeholder="https://example.com/blog/original-post">
+                        </div>
                     </div>
                 </div>
-        </div>
 
-        <div class="pt-6 border-t border-gray-200">
-            <button type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition shadow-md hover:shadow-lg">
-                Update Post
-            </button>
+                <div class="pt-6 border-t border-gray-200">
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition shadow-md hover:shadow-lg">
+                        Update Post
+                    </button>
+                </div>
+            </form>
         </div>
-        </form>
-    </div>
-    </div>
     </div>
 
     <script>
@@ -141,9 +183,18 @@
                         <button type="button" onclick="removeBlock(${index})" class="text-red-400 hover:text-red-600 text-xs opacity-0 group-hover:opacity-100 transition">Remove</button>
                     </div>
                     ${contentHtml}
-                `;
+                    `;
                 editorContainer.appendChild(el);
-            });
+            })
+        }
+
+        function updateBlock(index, field, value) {
+            blocks[index][field] = value;
+        }
+
+        function removeBlock(index) {
+            blocks.splice(index, 1);
+            renderBlocks();
         }
 
         async function handleImageUpload(index, file) {
@@ -199,7 +250,7 @@
                 if (data.url) {
                     // Set hidden input value
                     document.getElementById('main_image').value = data.url;
-
+                    
                     // Show preview
                     document.getElementById('image-preview').src = data.url;
                     document.getElementById('image-preview-container').classList.remove('hidden');
@@ -237,15 +288,6 @@
                 newBlock.caption = '';
             }
             blocks.push(newBlock);
-            renderBlocks();
-        }
-
-        function updateBlock(index, field, value) {
-            blocks[index][field] = value;
-        }
-
-        function removeBlock(index) {
-            blocks.splice(index, 1);
             renderBlocks();
         }
 
