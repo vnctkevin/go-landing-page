@@ -27,4 +27,15 @@ func ConnectDatabase() {
 	}
 
 	DB = database
+
+	// Get generic database object sql.DB to use its functions
+	sqlDB, err := DB.DB()
+	if err != nil {
+		log.Fatal("Failed to get database instance!", err)
+	}
+
+	// set connection pool
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxOpenConns(100)
+
 }

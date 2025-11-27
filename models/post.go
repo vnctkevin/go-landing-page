@@ -50,8 +50,13 @@ func (pc *PostContent) Scan(value interface{}) error {
 
 type BlogPost struct {
 	gorm.Model
-	Title   string      `json:"title"`
-	Content PostContent `json:"content" gorm:"type:jsonb"`
-	Author  string      `json:"author"`
-	Slug    string      `json:"slug"`
+	Title           string      `json:"title"`
+	MainImage       string      `json:"main_image"`
+	Content         PostContent `json:"content" gorm:"type:jsonb"`
+	Author          string      `json:"author"`
+	Slug            string      `json:"slug"`
+	MetaTitle       string      `json:"meta_title"`
+	MetaDescription string      `json:"meta_description"`
+	Keywords        string      `json:"keywords"`
+	CanonicalURL    string      `json:"canonical_url"`
 }

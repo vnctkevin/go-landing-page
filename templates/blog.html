@@ -78,8 +78,19 @@
                 {{ end }}
             </div>
         </div>
-    </div>
 
+        <!-- Pagination -->
+        <div class="flex justify-center items-center mx-auto mt-10 space-x-4">
+            <a href="/blog?page={{ .prevPage }}"
+                class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 text-gray-700">Previous</a>
+
+
+            <span class="px-4 py-2 text-gray-500">Page {{ .currentPage }} of {{ .totalPages }}</span>
+
+            <a href="/blog?page={{ .nextPage }}"
+                class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 text-gray-700">Next</a>
+        </div>
+    </div>
 </body>
 
 </html>

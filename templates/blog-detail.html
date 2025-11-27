@@ -4,7 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ if .post.Title }}
+    <title>{{ .post.Title }} | The ShipFlow Blog</title>
+    {{ else }}
     <title>The ShipFlow Blog</title>
+    {{ end }}
+    {{ if .post.Description }}
+    <meta name="description" content="{{ .post.Description }}">
+    {{ end }}
+    {{ if .post.Keywords }}
+    <meta name="keywords" content="{{ .post.Keywords }}">
+    {{ end }}
+    {{ if .post.Author }}
+    <meta name="author" content="{{ .post.Author }}">
+    {{ end }}
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -12,6 +25,7 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
+
 </head>
 
 <body class="bg-gray-50 text-slate-800">
