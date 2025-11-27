@@ -33,6 +33,9 @@ func main() {
 	r.POST("/blog/:id/edit", controllers.UpdatePost)
 	r.POST("/blog/:id/delete", controllers.DeletePost)
 
+	// Upload Endpoint
+	r.POST("/upload", controllers.UploadImage)
+
 	// 6. Run Server (defaults to localhost:8080)
 	r.Run()
 }

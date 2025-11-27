@@ -9,8 +9,8 @@
     {{ else }}
     <title>The ShipFlow Blog</title>
     {{ end }}
-    {{ if .post.Description }}
-    <meta name="description" content="{{ .post.Description }}">
+    {{ if .post.MetaDescription }}
+    <meta name="description" content="{{ .post.MetaDescription }}">
     {{ end }}
     {{ if .post.Keywords }}
     <meta name="keywords" content="{{ .post.Keywords }}">
@@ -61,6 +61,7 @@
                         </div>
                         <h1 class="text-4xl font-bold text-slate-900 mb-6">{{ .post.Title }}</h1>
 
+                        <img src="{{ .post.MainImage }}" alt="{{ .post.Title }}" class="w-full h-auto mb-6">
                         <div class="prose prose-slate max-w-none text-gray-600">
                             {{ range .post.Content }}
                             {{ if eq .Type "h1" }}
@@ -108,5 +109,9 @@
     </div>
 
 </body>
+<script>
+    console.log("{{ .post }}");
+    console.log("mainImage: {{ .post.MainImage }}");
+</script>
 
 </html>

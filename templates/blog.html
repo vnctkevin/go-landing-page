@@ -51,6 +51,10 @@
                                 {{ .Title }}</h3>
                         </a>
 
+                        {{if .MainImage }}
+                        <img src="{{ .MainImage }}" alt="{{ .Title }}" class="w-128 object-cover mb-4">
+                        {{end}}
+
                         <div class="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
                             <div class="flex items-center">
                                 <div

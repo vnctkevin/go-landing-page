@@ -99,6 +99,10 @@ func CreatePost(c *gin.Context) {
 		CanonicalURL:    canonicalURL,
 	}
 
+	// Handle Main Image (URL string from frontend upload)
+	mainImage := c.PostForm("main_image")
+	post.MainImage = mainImage
+
 	if err := postService.CreatePost(&post); err != nil {
 		c.JSON(500, gin.H{"error": "Error creating post"})
 		return
@@ -149,6 +153,13 @@ func UpdatePost(c *gin.Context) {
 		if err := json.Unmarshal([]byte(contentJSON), &postContent); err == nil {
 			post.Content = postContent
 		}
+	}
+
+	// Handle Main Image (URL string from frontend upload)
+	mainImage := c.PostForm("main_image")
+
+	if mainImage != "" {
+		post.MainImage = mainImage
 	}
 
 	if err := postService.UpdatePost(post); err != nil {
